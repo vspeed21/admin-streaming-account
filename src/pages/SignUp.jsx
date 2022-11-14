@@ -1,4 +1,7 @@
 import { useState } from "react";
+import axios from 'axios'
+
+import Alerta from "../components/Alerta";
 import AlertaInputs from "../components/AlertaInputs";
 import NavLinks from "../components/NavLinks";
 
@@ -13,12 +16,43 @@ function SignUp() {
   const [validPassword, setValidPassword] = useState(false);
   const [validRepeatPass, setValidRepeatPass] = useState(false);
 
+  const [alerta, setAlerta] = useState({});
+
   const handleSubmit = async e => {
     e.preventDefault();
     
     if([name, email, password, repeatePass].includes('')) {
-      alert('todos los campos son obligatorios');
+      setAlerta({
+        msg: 'todos los campos son obligatorios',
+        error: true,
+      });
+      setTimeout(() => {
+        setAlerta({});
+      }, 3000);
       return;
+    }
+
+    try {
+      const { data } = await axios.post('http://localhost:4000/api/admin', {name, email, password});
+
+      setAlerta({
+        msg: data.msg,
+      });
+
+      setName('');
+      setEmail('');
+      setPassword('');
+      setRepeatePass('');
+
+      setTimeout(() => {
+        setAlerta({});
+      }, 10000);
+      
+    } catch (error) {
+      setAlerta({
+        msg: error.response.data.msg,
+        error: true,
+      });
     }
   }
 
@@ -56,7 +90,7 @@ function SignUp() {
   return (
     <>
       <div className="">
-      <h1 className="text-7xl text-red-500 font-black text-center md:text-left">
+      <h1 className="text-5xl md:text-6xl lg:text-7xl text-red-500 font-black text-center md:text-left">
           Registrate y empieza a administrar {''} 
           <span className="text-black">tus cuentas</span>
         </h1>
@@ -67,6 +101,7 @@ function SignUp() {
           onSubmit={handleSubmit}
           className="bg-white shadow-md p-10 mx-3 rounded-lg"
         >
+          {alerta.msg && <Alerta alerta={alerta}/>}
         <div className="flex flex-col mb-5 gap-3">
             <label 
               htmlFor="name"
@@ -102,7 +137,7 @@ function SignUp() {
               onChange={e  => setEmail(e.target.value)}
             />
 
-            {validEmail ? <AlertaInputs msg="Correo no valido"/>: null}
+            {validEmail ? <AlertaInputs msg="Dirreción de correo electrónica no válida"/>: null}
           </div>
 
           <div className="flex flex-col mb-5 gap-3">
@@ -121,7 +156,7 @@ function SignUp() {
               onChange={e  => setPassword(e.target.value)}
             />
 
-            {validPassword ? <AlertaInputs msg="Contraseña muy corta"/> : null}
+            {validPassword ? <AlertaInputs msg="Contraseña muy corta. Añade mas de 8 caracteres"/> : null}
           </div>
 
           <div className="flex flex-col mb-5 gap-3">
@@ -143,11 +178,11 @@ function SignUp() {
             { validRepeatPass ? <AlertaInputs msg="Las contraseñas no son iguales"/> : null}
           </div>
 
-          <div className="flex md:justify-end justify-start">
+          <div className="flex md:justify-end">
             <input
               type="submit"
-              value="Iniciar sesión"
-              className="bg-red-500 text-white uppercase py-2 px-4 font-bold hover:cursor-pointer hover:bg-red-600 transition-colors rounded-md"
+              value="Crear cuenta"
+              className="bg-red-500 text-white uppercase py-2 px-4 font-bold hover:cursor-pointer hover:bg-red-600 transition-colors rounded-md w-full md:w-auto"
             />
           </div>
         </form>
