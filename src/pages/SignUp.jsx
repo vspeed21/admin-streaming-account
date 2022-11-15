@@ -187,8 +187,10 @@ function SignUp() {
           </div>
         </form>
         <NavLinks
-          linker="¿Ya tienes una cuenta? Inicia sesión"
-          linkdo="Contraseña olvidada"
+          texter="¿Ya tienes una cuenta? Inicia sesión"
+          linker="/"
+          textdo="Olvide mi contraseña"
+          linkdo="/forgot-password"
         />
       </div>
     </>
