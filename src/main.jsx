@@ -7,6 +7,9 @@ import AuthLayout from './layouts/AuthLayout';
 
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';
+import ForgotPassword from './pages/ForgotPassword';
+import SavePassword from './pages/SavePassword';
+import Confirm from './pages/Confirm';
 
 
 const router = createBrowserRouter([
@@ -22,12 +25,22 @@ const router = createBrowserRouter([
         path: '/signup',
         element: <SignUp/>
       },
+      {
+        path: '/confirm/:token',
+        element: <Confirm/>
+      },
+      {
+        path: '/forgot-password',
+        element: <ForgotPassword/>
+      },
+      {
+        path: '/save-password/:token',
+        element: <SavePassword/>
+      },
     ]
   }
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <RouterProvider router={router}/>
-  </React.StrictMode>
+  <RouterProvider router={router}/>
 )
