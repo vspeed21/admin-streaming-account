@@ -1,20 +1,20 @@
 import { Link } from "react-router-dom";
 
-function NavLinks({linker, linkdo}) {
+function NavLinks({linker, linkdo, texter, textdo}) {
   return (
     <nav className="lg:flex justify-between mt-5">
       <Link
-        to="/"
+        to={linker}
         className="text-gray-600 block text-center lg:text-left mb-4 hover:text-gray-900 hover:underline transition-colors duration-300"
       >
-        {linker}
+        {texter}
       </Link>
 
       <Link
-        to="/"
+        to={linkdo}
         className="text-gray-600 block text-center lg:text-left mb-4 hover:text-gray-900 hover:underline transition-colors duration-300"
       >
-        {linkdo}
+        {textdo}
       </Link>
     </nav>
   )
