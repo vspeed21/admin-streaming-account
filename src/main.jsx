@@ -4,12 +4,19 @@ import './index.css'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
 import AuthLayout from './layouts/AuthLayout';
+import AdminLayout from './layouts/AdminLayout';
 
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';
 import ForgotPassword from './pages/ForgotPassword';
 import SavePassword from './pages/SavePassword';
 import Confirm from './pages/Confirm';
+
+import AdminAccount from './pages/AdminAccounts';
+import Profile from './pages/Profile';
+import ChangePassword from './pages/ChangePassword';
+
+
 import { AuthProvider } from './context/AuthProvider';
 
 
@@ -19,7 +26,7 @@ const router = createBrowserRouter([
     element: <AuthLayout />,
     children: [
       {
-        path: '/',
+        index: true,
         element: <Login/>
       },
       {
@@ -38,6 +45,24 @@ const router = createBrowserRouter([
         path: '/save-password/:token',
         element: <SavePassword/>
       },
+    ]
+  },
+  {
+    path: '/admin',
+    element: <AdminLayout />,
+    children: [
+      {
+        index: true,
+        element: <AdminAccount/>
+      },
+      {
+        path: '/admin/profile',
+        element: <Profile/>
+      },
+      {
+        path: '/admin/change-password',
+        element: <ChangePassword/>
+      }
     ]
   }
 ]);
