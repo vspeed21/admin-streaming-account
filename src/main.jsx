@@ -10,6 +10,7 @@ import SignUp from './pages/SignUp';
 import ForgotPassword from './pages/ForgotPassword';
 import SavePassword from './pages/SavePassword';
 import Confirm from './pages/Confirm';
+import { AuthProvider } from './context/AuthProvider';
 
 
 const router = createBrowserRouter([
@@ -42,5 +43,7 @@ const router = createBrowserRouter([
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <RouterProvider router={router}/>
+  <AuthProvider>
+    <RouterProvider router={router}/>
+  </AuthProvider>
 )
