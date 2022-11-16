@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 import NavLinks from '../components/NavLinks';
 import Alerta from "../components/Alerta";
 import adminCliente from '../config/axios';
+import useAuth from "../hooks/useAuth";
 
 function Login() {
-  const navigate = useNavigate();
+  const { setAuth } = useAuth();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -29,7 +29,9 @@ function Login() {
     try {
       const { data } = await adminCliente.post('/admin/login', {email, password});
       localStorage.setItem('asa-token', data.token);
-      navigate('/admin');
+      setAuth(data);
+
+      window.location = '/admin'
       
     } catch (error) {
       setAlerta({
