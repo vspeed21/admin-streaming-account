@@ -1,4 +1,5 @@
 import { createContext, useState, useEffect } from 'react';
+import swal from 'sweetalert';
 import adminClient from '../config/axios';
 
 const AuthContext = createContext();
@@ -33,7 +34,22 @@ export const AuthProvider = ({children}) => {
       setCargando(false);
     }
 
-  }, [])
+  }, []);
+
+  const logOut = () => {
+    swal({
+      title: "¿Estas seguro de cerrar sesion?",
+      icon: "warning",
+      buttons: ['Cancelar', 'Confirmar'],
+      dangerMode: true,
+    })
+    .then((willDelete) => {
+      if (willDelete) {
+        localStorage.removeItem('asa-token');
+        setAuth({});
+      }
+    });
+  }
   
 
   return(
@@ -42,6 +58,7 @@ export const AuthProvider = ({children}) => {
         auth,
         cargando,
         setAuth,
+        logOut,
       }}
     >
       {children}
