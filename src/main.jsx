@@ -18,6 +18,7 @@ import ChangePassword from './pages/ChangePassword';
 
 
 import { AuthProvider } from './context/AuthProvider';
+import { AccountProvider } from './context/AccountProvider';
 
 
 const router = createBrowserRouter([
@@ -69,6 +70,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <AuthProvider>
-    <RouterProvider router={router}/>
+    <AccountProvider>
+      <RouterProvider router={router}/>
+    </AccountProvider>
   </AuthProvider>
 )
