@@ -1,4 +1,5 @@
 import {createContext, useState, useEffect } from "react";
+import swal from "sweetalert";
 import adminClient from "../config/axios";
 
 const AccountContext = createContext();
@@ -59,6 +60,30 @@ export function AccountProvider({children}) {
     }
   }
 
+  function destroyAcc(id) {
+    swal({
+      title: "¿Estas seguro de eliminar este perfil?",
+      icon: "warning",
+      buttons: ['Cancelar', 'Confirmar'],
+      dangerMode: true,
+    })
+    .then(async (willDelete) => {
+      if (willDelete) {
+        try {
+          await adminClient.delete(`/account/${id}`, config);
+    
+          const accountsSaved = accounts.filter(account => account._id !== id);
+          setAccounts(accountsSaved);
+    
+        } catch (error) {
+          console.log(error);
+        }
+      }
+
+      swal('Perfil eliminado correctamente', {icon: 'success'});
+    });
+  }
+
   return(
     <AccountContext.Provider
       value={{
@@ -66,6 +91,7 @@ export function AccountProvider({children}) {
         saveAccounts,
         setAccountEditar,
         accountEditar,
+        destroyAcc,
       }}
     >
       {children}
