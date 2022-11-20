@@ -94,7 +94,8 @@ function Login() {
             <input
               type="submit"
               value="Iniciar sesión"
-              className="bg-red-500 text-white uppercase py-2 px-4 font-bold hover:cursor-pointer hover:bg-red-600 transition-colors rounded-md"
+              disabled={!email || !password ? true : false}
+              className={` text-white uppercase py-2 px-4 font-bold hover:cursor-pointer hover:bg-red-600 transition-colors rounded-md ${!email || !password ? 'hover:cursor-not-allowed' : 'hover:cursor-pointer'} ${!email || !password ? 'bg-red-100' : 'bg-red-500'} ${!email || !password ? 'hover:bg-red-100' : 'hover:bg-red-600'}`}
             />
           </div>
         </form>
