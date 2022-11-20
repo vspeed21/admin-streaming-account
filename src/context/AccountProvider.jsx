@@ -5,7 +5,8 @@ const AccountContext = createContext();
 
 export function AccountProvider({children}) {
   const [accounts, setAccounts] = useState([]);
-  console.log(accounts);
+  const [accountEditar, setAccountEditar] = useState({});
+
 
   const token = localStorage.getItem('asa-token');
   const config = {
@@ -31,13 +32,30 @@ export function AccountProvider({children}) {
 
   const saveAccounts = async account => {
     if(!token) return;
-    try {
-      const { data } = await adminClient.post('/account', account, config);
-      const { updatedAt, createdAt, __v, ...accountsSave } = data;
-      setAccounts([accountsSave, ...accounts]);
+    
+    if(account.id) {
+      //Editar
+      try {
+        const { data } = await adminClient.put(`/account/${account.id}`, account, config);
+        
+        const accountsSaved = accounts.map(account => account._id === data._id ? data : account);
 
-    } catch (error) {
-      console.log(error);
+        setAccounts(accountsSaved);
+  
+      } catch (error) {
+        console.log(error);
+      }
+
+    }else{
+      //Add new account
+      try {
+        const { data } = await adminClient.post('/account', account, config);
+        const { updatedAt, createdAt, __v, ...accountsSave } = data;
+        setAccounts([accountsSave, ...accounts]);
+  
+      } catch (error) {
+        console.log(error);
+      }
     }
   }
 
@@ -46,6 +64,8 @@ export function AccountProvider({children}) {
       value={{
         accounts,
         saveAccounts,
+        setAccountEditar,
+        accountEditar,
       }}
     >
       {children}
