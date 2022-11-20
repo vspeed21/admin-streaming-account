@@ -10,17 +10,15 @@ function Formulario() {
   const [name, setName] = useState('');
   const [screen, setScreen] = useState('');
   const [pin, setPin] = useState('');
-  const [card, setCard] = useState('');
   const [deadline, setDeadLine] = useState('');
 
   const [alerta, setAlerta] = useState({});
 
   const [pinValid, setPinValid] = useState(false);
-  const [cardValid, setCardValid] = useState(false);
 
   const handleSubmit = async e => {
     e.preventDefault();
-    if([name, screen, pin, card, deadline].includes('')) {
+    if([name, screen, pin, deadline].includes('')) {
       setAlerta({
         msg: 'Todos los campos son obligatorios',
         error: true,
@@ -32,16 +30,10 @@ function Formulario() {
     }
 
     setAlerta({});
-    saveAccounts({name, screen, pin, card, deadline});
+    saveAccounts({name, screen, pin, deadline});
   }
 
   const handleInput = e => {
-    if(e.target.name === 'card' && !validateNumber(e.target.value)) {
-      setCardValid(true);
-      return;
-    }
-    setCardValid(false);
-
     if(e.target.name === 'pin' && !validateNumber(e.target.value)) {
       setPinValid(true);
       return;
@@ -124,28 +116,6 @@ function Formulario() {
           onChange={e => setPin(e.target.value)}
         />
         {pinValid ? <AlertaInputs msg="Solo puede ingresar numeros"/> : null}
-      </div>
-
-      <div className='flex gap-2 flex-col mb-3'>
-        <label 
-          htmlFor='card'
-          className='uppercase text-gray-600 font-bold'
-        >
-          tarjeta <span className="text-xs text-red-600 normal-case">(Ultimos 4 digitos):</span>
-        </label>
-
-        <input
-          type="text"
-          id='card'
-          name='card'
-          placeholder='Ingrese la tarjeta asociada a la cuenta'
-          className='p-2 border-2 bg-gray-50 outline-0 rounded focus:shadow'
-          onInput={handleInput}
-          maxLength="4"
-          value={card}
-          onChange={e => setCard(e.target.value)}
-        />
-        {cardValid ? <AlertaInputs msg="Solo puede ingresar numeros"/> : null}
       </div>
 
       <div className='flex gap-2 flex-col mb-3'>
