@@ -1,20 +1,32 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import useAccounts from '../hooks/useAccounts';
 
 import AlertaInputs from './AlertaInputs'
 import Alerta from './Alerta'
 
 function Formulario() {
-  const { saveAccounts } = useAccounts();
+  const { saveAccounts, accountEditar } = useAccounts();
 
   const [name, setName] = useState('');
   const [screen, setScreen] = useState('');
   const [pin, setPin] = useState('');
   const [deadline, setDeadLine] = useState('');
+  const [id, setId] = useState('');
 
   const [alerta, setAlerta] = useState({});
 
   const [pinValid, setPinValid] = useState(false);
+
+  useEffect(() => {
+    if(accountEditar?.name) {
+      setName(accountEditar?.name);
+      setScreen(accountEditar?.screen);
+      setPin(accountEditar?.pin);
+      setDeadLine(accountEditar?.deadline);
+      setId(accountEditar._id);
+    }
+  }, [accountEditar]);
+  
 
   const handleSubmit = async e => {
     e.preventDefault();
@@ -30,7 +42,7 @@ function Formulario() {
     }
 
     setAlerta({});
-    saveAccounts({name, screen, pin, deadline});
+    saveAccounts({name, screen, pin, deadline, id});
   }
 
   const handleInput = e => {
@@ -142,7 +154,7 @@ function Formulario() {
 
       <input
         type='submit'
-        value={`Agregar`}
+        value={accountEditar?.name ? 'Guardar cambios' : 'Agregar'}
         className="w-full text-center bg-red-600 text-white py-2 mt-4 rounded-md hover:cursor-pointer hover:bg-red-700 font-bold uppercase"
       />
     </form>
