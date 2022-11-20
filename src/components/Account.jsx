@@ -1,7 +1,9 @@
-import React from 'react'
+import useAccounts from '../hooks/useAccounts';
 
 function Account({account}) {
-  const { name, screen, pin, deadline } = account;
+  const { name, screen, pin, deadline, _id } = account;
+
+  const { setAccountEditar, destroyAcc } = useAccounts();
 
   return (
     <>
@@ -31,6 +33,7 @@ function Account({account}) {
         <button 
           type="button"
           className="p-2 bg-indigo-600 hover:cursor-pointer hover:bg-indigo-700 text-white rounded uppercase font-bold px-3 transition-colors duration-300"
+          onClick={() => setAccountEditar(account)}
         >
           Editar
         </button>
@@ -38,6 +41,7 @@ function Account({account}) {
         <button 
           type="button"
           className="p-2 bg-red-600 hover:cursor-pointer hover:bg-red-700 text-white rounded uppercase font-bold px-3 transition-colors duration-300"
+          onClick={() => destroyAcc(_id)}
         >
           Eliminar
         </button>
