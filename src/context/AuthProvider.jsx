@@ -8,19 +8,20 @@ export const AuthProvider = ({children}) => {
   const [auth, setAuth] = useState({});
   const [cargando, setCargando] = useState(true);
 
+  const token = localStorage.getItem('asa-token');
+  const config = {
+    headers:{
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    }
+  }
+
   useEffect(() => {
     checkAuth();
     async function checkAuth() {
-      const token = localStorage.getItem('asa-token');
       if(!token){
         setCargando(false);
         return;
-      }
-      const config = {
-        headers:{
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        }
       }
 
       try {
@@ -50,6 +51,19 @@ export const AuthProvider = ({children}) => {
       }
     });
   }
+
+  const updateProfile = async admin => {
+    if(!token) return;
+
+    try {
+      const { data } = await adminClient.put(`/admin/perfil`, admin, config);
+      return {
+        msg: data.msg,
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
   
 
   return(
@@ -59,6 +73,7 @@ export const AuthProvider = ({children}) => {
         cargando,
         setAuth,
         logOut,
+        updateProfile
       }}
     >
       {children}
