@@ -42,7 +42,6 @@ export function AccountProvider({children}) {
         const accountsSaved = accounts.map(account => account._id === data._id ? data : account);
 
         setAccounts(accountsSaved);
-        setAccountEditar({});
   
       } catch (error) {
         console.log(error);

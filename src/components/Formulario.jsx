@@ -47,6 +47,7 @@ function Formulario() {
     setScreen('');
     setPin('');
     setDeadLine('');
+    setId('');
   }
 
   const handleInput = e => {
