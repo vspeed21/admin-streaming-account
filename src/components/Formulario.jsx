@@ -23,7 +23,7 @@ function Formulario() {
       setScreen(accountEditar?.screen);
       setPin(accountEditar?.pin);
       setDeadLine(accountEditar?.deadline);
-      setId(accountEditar._id);
+      setId(accountEditar?._id);
     }
   }, [accountEditar]);
   
@@ -43,6 +43,10 @@ function Formulario() {
 
     setAlerta({});
     saveAccounts({name, screen, pin, deadline, id});
+    setName('');
+    setScreen('');
+    setPin('');
+    setDeadLine('');
   }
 
   const handleInput = e => {

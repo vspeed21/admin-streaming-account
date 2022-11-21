@@ -42,6 +42,7 @@ export function AccountProvider({children}) {
         const accountsSaved = accounts.map(account => account._id === data._id ? data : account);
 
         setAccounts(accountsSaved);
+        setAccountEditar({});
   
       } catch (error) {
         console.log(error);
@@ -73,14 +74,14 @@ export function AccountProvider({children}) {
           await adminClient.delete(`/account/${id}`, config);
     
           const accountsSaved = accounts.filter(account => account._id !== id);
+          swal('Perfil eliminado correctamente', {icon: 'success'});
+
           setAccounts(accountsSaved);
     
         } catch (error) {
           console.log(error);
         }
       }
-
-      swal('Perfil eliminado correctamente', {icon: 'success'});
     });
   }
 
