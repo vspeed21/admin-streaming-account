@@ -63,6 +63,12 @@ function Formulario() {
   }
 
   return (
+    <>
+      <p className="text-2xl font-bold text-center mb-10 rounded-md">
+        Añade tus perfiles y {''}
+        <span className="text-indigo-600 font-bold">Administralos</span>
+      </p>
+
     <form
       onSubmit={handleSubmit}
       className="bg-white shadow p-5 rounded-lg"
@@ -162,6 +168,7 @@ function Formulario() {
         className="w-full text-center bg-red-600 text-white py-2 mt-4 rounded-md hover:cursor-pointer hover:bg-red-700 font-bold uppercase"
       />
     </form>
+    </>
 
   )
 }
