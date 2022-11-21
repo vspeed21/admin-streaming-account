@@ -12,8 +12,8 @@ function AdminAccount() {
         <Formulario/>
       </div>
 
-      <div className="md:w-1/2 lg:w-3/5">
-      <p className="text-2xl font-bold text-center mb-10 rounded-md">
+      <div className="md:w-1/2 lg:w-3/5 md:h-screen overflow-y-auto">
+      <p className="text-2xl font-bold text-center my-5 md:my-0 rounded-md">
         {accounts.length ? 'Administra tus' : 'No hay perfiles aún agrega uno y '}
         <span className="text-indigo-600 font-bold">{accounts.length ? ' perfiles' : 'administralos'}</span>
       </p>
