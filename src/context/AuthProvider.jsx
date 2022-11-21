@@ -56,7 +56,7 @@ export const AuthProvider = ({children}) => {
     if(!token) return;
 
     try {
-      const { data } = await adminClient.put(`/admin/perfil`, admin, config);
+      const { data } = await adminClient.put('/admin/perfil', admin, config);
       return {
         msg: data.msg,
       }
@@ -64,6 +64,24 @@ export const AuthProvider = ({children}) => {
       console.log(error);
     }
   }
+
+  const changePassword = async passwords => {
+    if(!token) return;
+
+    try {
+      const { data } = await adminClient.put('/admin/change-password', passwords, config);
+      
+      return {
+        msg: data.msg,
+      }
+
+    } catch (error) {
+      return {
+        msg: error.response.data.msg,
+        error: true,
+      }
+    }
+  } 
   
 
   return(
@@ -73,7 +91,8 @@ export const AuthProvider = ({children}) => {
         cargando,
         setAuth,
         logOut,
-        updateProfile
+        updateProfile,
+        changePassword
       }}
     >
       {children}
