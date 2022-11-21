@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
-import axios from "axios";
+import adminClient from '../config/axios';
 import Alerta from "../components/Alerta"
 
 
@@ -17,8 +17,8 @@ function Confirm() {
     checkToken();
     async function checkToken() {
       try {
-        const url = `http://localhost:4000/api/admin/confirm/${token}`;
-        const { data } = await axios(url);
+        const url = `/admin/confirm/${token}`;
+        const { data } = await adminClient(url);
         setConfirmed(true);
         setAlerta({
           msg: data.msg,

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from 'axios'
+import adminClient from '../config/axios';
 
 import Alerta from "../components/Alerta";
 import AlertaInputs from "../components/AlertaInputs";
@@ -33,7 +33,7 @@ function SignUp() {
     }
 
     try {
-      const { data } = await axios.post('http://localhost:4000/api/admin', {name, email, password});
+      const { data } = await adminClient.post('/admin', {name, email, password});
 
       setAlerta({
         msg: data.msg,

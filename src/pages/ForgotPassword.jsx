@@ -1,4 +1,4 @@
-import axios from 'axios';
+import adminClient from '../config/axios';
 import { useState } from 'react';
 
 import Alerta from '../components/Alerta';
@@ -27,8 +27,8 @@ function ForgotPassword() {
     }
 
     try {
-      const url = `http://localhost:4000/api/admin/forgot-password`;
-      const { data } = await axios.post(url, { email });
+      const url = `/admin/forgot-password`;
+      const { data } = await adminClient.post(url, { email });
       setAlerta({
         msg: data.msg
       });
