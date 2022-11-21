@@ -4,12 +4,15 @@ import adminClient from '../config/axios';
 import Alerta from "../components/Alerta";
 import AlertaInputs from "../components/AlertaInputs";
 import NavLinks from "../components/NavLinks";
+import Spinner from "../components/Spinner";
 
 function SignUp() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [repeatePass, setRepeatePass] = useState('');
+
+  const [showSpinner, setShowSpinner] = useState(false);
 
   const [validName, setValidName] = useState(false);
   const [validEmail, setValidEmail] = useState(false);
@@ -33,8 +36,10 @@ function SignUp() {
     }
 
     try {
+      setShowSpinner(true);
       const { data } = await adminClient.post('/admin', {name, email, password});
-
+      
+      setShowSpinner(false);
       setAlerta({
         msg: data.msg,
       });
@@ -53,6 +58,7 @@ function SignUp() {
         msg: error.response.data.msg,
         error: true,
       });
+      setShowSpinner(false);
     }
   }
 
@@ -101,6 +107,11 @@ function SignUp() {
           onSubmit={handleSubmit}
           className="bg-white shadow-md p-10 mx-3 rounded-lg"
         >
+          {showSpinner ? (
+            <div className="flex flex-col justify-center items-center gap-2 mb-5">
+              <Spinner/>
+            </div>
+          ) : null}
           {alerta.msg && <Alerta alerta={alerta}/>}
         <div className="flex flex-col mb-5 gap-3">
             <label 

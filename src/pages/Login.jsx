@@ -4,6 +4,7 @@ import NavLinks from '../components/NavLinks';
 import Alerta from "../components/Alerta";
 import adminCliente from '../config/axios';
 import useAuth from "../hooks/useAuth";
+import Spinner from '../components/Spinner';
 
 function Login() {
   const { setAuth } = useAuth();
@@ -11,6 +12,8 @@ function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [alerta, setAlerta] = useState({});
+
+  const [showSpinner, setShowSpinner] = useState(false);
 
   const handleSubmit = async e => {
     e.preventDefault();
@@ -27,10 +30,13 @@ function Login() {
     }
 
     try {
+      setShowSpinner(true);
       const { data } = await adminCliente.post('/admin/login', {email, password});
       localStorage.setItem('asa-token', data.token);
       setAuth(data);
-
+      setAlerta({});
+      
+      setShowSpinner(false);
       window.location = '/admin'
       
     } catch (error) {
@@ -38,6 +44,8 @@ function Login() {
         msg: error.response.data.msg,
         error: true,
       });
+      setShowSpinner(false);
+
       setTimeout(() => {
         setAlerta({});
       }, 3000);
@@ -58,6 +66,15 @@ function Login() {
           onSubmit={handleSubmit} 
           className="bg-white shadow-md p-10 mx-3 rounded-lg"
         >
+          {showSpinner ? (
+            <div className="flex flex-col justify-center items-center gap-2 mb-5">
+              <Spinner/>
+              <p className="text-sm text-center">
+                Validando credenciales...{''}
+                <span className="font-bold">Porfavor espere</span>
+              </p>
+            </div>
+          ) : null}
           {alerta.msg && <Alerta alerta={alerta} />}
           <div className="flex flex-col mb-5 gap-3">
             <label 

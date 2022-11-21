@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Alerta from '../components/Alerta';
 import AlertaInputs from '../components/AlertaInputs';
 import NavLinks from '../components/NavLinks';
+import Spinner from '../components/Spinner';
 
 
 function ForgotPassword() {
@@ -11,6 +12,8 @@ function ForgotPassword() {
   const [validEmail, setValidEmail] = useState(false);
 
   const [alerta, setAlerta] = useState({});
+
+  const [showSpinner, setShowSpinner] = useState(false);
 
   const handleSubmit = async e => {
     e.preventDefault();
@@ -27,8 +30,10 @@ function ForgotPassword() {
     }
 
     try {
-      const url = `/admin/forgot-password`;
+      setShowSpinner(true);
+      const url = '/admin/forgot-password';
       const { data } = await adminClient.post(url, { email });
+      setShowSpinner(false);
       setAlerta({
         msg: data.msg
       });
@@ -39,7 +44,8 @@ function ForgotPassword() {
       setAlerta({
         msg: error.response.data.msg,
         error: true,
-      })
+      });
+      setShowSpinner(false);
     }
   }
 
@@ -70,6 +76,11 @@ function ForgotPassword() {
           onSubmit={handleSubmit}
           className="bg-white shadow-md p-10 mx-3 rounded-lg"
         >
+          {showSpinner ? (
+            <div className="flex flex-col justify-center items-center gap-2 mb-5">
+              <Spinner/>
+            </div>
+          ) : null}
           {alerta.msg && <Alerta alerta={alerta}/>}
 
           <div className="flex flex-col mb-5 gap-3">
