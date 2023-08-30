@@ -19,4 +19,4 @@ This project is a streaming account management application that allows you to ma
 - Additional Libraries: [Libraries]
 
 ## Keep in mind
-Only accounts with Gmail emails are supported in this project
+Only accounts with Gmail emails are supported for authentication
